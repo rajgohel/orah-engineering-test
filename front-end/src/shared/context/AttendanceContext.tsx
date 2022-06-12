@@ -17,13 +17,15 @@ const contextDefaultValues: ContextState = {
     totalStudents: 0,
     presentStudents: 0,
     lateStudents: 0,
-    absentStudents: 0
+    absentStudents: 0,
+    saveStudentsRoll: () => { }
 }
 
 export const AttendanceContext = createContext<ContextState>(contextDefaultValues)
 
 const AttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
     const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
+    const [saveStudentRolls] = useApi({ url: "save-roll" })
     const [studentsList, setStudentsList] = useState<Person[]>([])
     const [totalStudents, setTotalStudents] = useState<number>(0)
     const [presentStudents, setPresentStudents] = useState<number>(0)
@@ -113,6 +115,23 @@ const AttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
         }
     }
 
+    const saveStudentsRoll = () => {
+        if (data?.students) {
+            let saveStudentsList = data.students.reduce((acc: any, curr) => {
+                let saveDTO = {
+                    student_id: curr.id,
+                    roll_state: curr.roll_status ?? "unmark"
+                }
+                acc.push(saveDTO);
+                return acc;
+            }, []);
+            let rollDTO = {
+                student_roll_states: saveStudentsList
+            }
+            void saveStudentRolls(rollDTO);
+        }
+    }
+
     return (
         <AttendanceContext.Provider
             value={{
@@ -128,7 +147,8 @@ const AttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
                 totalStudents,
                 presentStudents,
                 lateStudents,
-                absentStudents
+                absentStudents,
+                saveStudentsRoll
             }}
         >
             {children}

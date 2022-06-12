@@ -8,7 +8,6 @@ import { CenteredContainer } from "shared/components/centered-container/centered
 import { StudentListTile } from "staff-app/components/student-list-tile/student-list-tile.component"
 import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active-roll-overlay/active-roll-overlay.component"
 import { Input, Switch } from "@material-ui/core"
-import { RolllStateType } from "shared/models/roll"
 import { AttendanceContext } from "shared/context/AttendanceContext"
 
 export const HomeBoardPage: React.FC = () => {
@@ -20,7 +19,8 @@ export const HomeBoardPage: React.FC = () => {
     sortByFirstName,
     sortByLastName,
     sortMode,
-    searchByName
+    searchByName,
+    saveStudentsRoll
   } = useContext(AttendanceContext)
 
   const onToolbarAction = (action: ToolbarAction, value?: string) => {
@@ -48,6 +48,7 @@ export const HomeBoardPage: React.FC = () => {
   const onActiveRollAction = (action: ActiveRollAction) => {
     if (action === "exit") {
       setIsRollMode(false)
+      saveStudentsRoll();
     }
   }
 
@@ -136,5 +137,3 @@ const S = {
     }
   `,
 }
-
-type ItemType = RolllStateType | "all"

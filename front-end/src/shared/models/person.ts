@@ -25,7 +25,8 @@ export type ContextState = {
   totalStudents: number
   presentStudents: number
   lateStudents: number
-  absentStudents: number
+  absentStudents: number,
+  saveStudentsRoll: () => void
 };
 
 type ItemType = RolllStateType | "all"
