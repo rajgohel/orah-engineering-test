@@ -44,31 +44,31 @@ const AttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
         }
     }, [data?.students])
 
-    const sortByFullName = () => {
+    const sortByFullName = (value: string) => {
         if (data?.students) {
             let sortedData = [];
-            if (sortMode) sortedData = sortByName(data.students);
+            if (value === "desc") sortedData = sortByName(data.students);
             else sortedData = sortByName(data.students, false);
             setSortMode((prevState) => !prevState);
             setStudentsList(sortedData);
         }
     }
 
-    const sortByFirstName = () => {
+    const sortByFirstName = (value: string) => {
         setSortMode((prevState) => !prevState);
         if (data?.students) {
             let firstNameSortedData = [];
-            if (sortMode) firstNameSortedData = sortByFname(data.students);
+            if (value === "desc") firstNameSortedData = sortByFname(data.students);
             else firstNameSortedData = sortByFname(data.students, false);
             setStudentsList(firstNameSortedData);
         }
     }
 
-    const sortByLastName = () => {
+    const sortByLastName = (value: string) => {
         setSortMode((prevState) => !prevState);
         if (data?.students) {
             let lastNameSortedData = [];
-            if (sortMode) lastNameSortedData = sortByLname(data.students);
+            if (value === "desc") lastNameSortedData = sortByLname(data.students);
             else lastNameSortedData = sortByLname(data.students, false);
             setStudentsList(lastNameSortedData);
         }

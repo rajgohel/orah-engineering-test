@@ -15,9 +15,9 @@ export const PersonHelper = {
 export type ContextState = {
   studentsList: Person[]
   loadState: string
-  sortByFullName: () => void
-  sortByFirstName: () => void
-  sortByLastName: () => void
+  sortByFullName: (value: string) => void
+  sortByFirstName: (value: string) => void
+  sortByLastName: (value: string) => void
   sortMode: boolean
   searchByName: (keyword: string) => void
   updateStudentRoll: (newState: RolllStateType, id: number) => void
