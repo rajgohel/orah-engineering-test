@@ -67,7 +67,7 @@ export const HomeBoardPage: React.FC = () => {
           </CenteredContainer>
         )}
 
-        {loadState === "loaded" && studentsList && (
+        {loadState === "loaded" && studentsList.length > 0 ? (
           <>
             {studentsList.map((s) => (
               <StudentListTile
@@ -76,8 +76,12 @@ export const HomeBoardPage: React.FC = () => {
                 student={s} />
             ))}
           </>
-        )}
-  
+        ) :
+          <S.NoResultWrapper>
+            No records Found.
+          </S.NoResultWrapper>
+        }
+
         {loadState === "error" && (
           <CenteredContainer>
             <div>Failed to load</div>
@@ -104,7 +108,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
   const { onItemClick, onInputChange, sortOrder, handleDropdownChange, sortingMode } = props
   return (
     <S.ToolbarContainer>
-      <S.sortWrapper>
+      <S.SortWrapper>
         <S.styledSelect
           id="demo-simple-select"
           value={sortingMode}
@@ -120,7 +124,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
             <FontAwesomeIcon onClick={() => onItemClick("sort", "desc")} icon={faArrowDown} size="sm" />
           }
         </S.ButtonWrapper>
-      </S.sortWrapper>
+      </S.SortWrapper>
       <Input placeholder="Search..." style={{ color: "#fff" }} onChange={(e) => { onInputChange(e.target.value.toLowerCase()) }} />
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
@@ -156,7 +160,7 @@ const S = {
     flex-direction: column;
     cursor: pointer;
   `,
-  sortWrapper: styled.div`
+  SortWrapper: styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -169,5 +173,11 @@ const S = {
     padding: 4px 0 0 0;
     width: 6rem;
   }
+  `,
+  NoResultWrapper: styled.p`
+    font-size: 15px;
+    text-align: center;
+    color: ${Colors.blue.base};
+    font-weight: ${FontWeight.strong};
   `,
 }
